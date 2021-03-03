@@ -1,0 +1,7 @@
+{
+  "name": "cdk-react-todo",
+  "version": "0.1.0",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
+}
