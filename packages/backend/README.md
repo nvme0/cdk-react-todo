@@ -19,7 +19,6 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 - Add TODO endpoints: Create (POST), Update (PUT), Delete (Delete), Get One (GET)
 - Add React Frontend: Todos, React DnD, Material UI, React Query with optimisic updates
 - Add CloudFront (CDN)
-- Add linting
 - Add deployment pipeline
 - Add Amazon Congnito (user accounts)
 - Unit tests, e2e tests

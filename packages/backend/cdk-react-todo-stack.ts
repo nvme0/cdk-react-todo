@@ -54,7 +54,7 @@ export class CdkReactTodoStack extends cdk.Stack {
     const dynamoTable = new dynamodb.Table(this, "todos", {
       partitionKey: {
         name: "id",
-        type: dynamodb.AttributeType.STRING
+        type: dynamodb.AttributeType.STRING,
       },
       tableName: "todos",
       removalPolicy: cdk.RemovalPolicy.DESTROY, // NOT recommended for production code
@@ -70,8 +70,8 @@ export class CdkReactTodoStack extends cdk.Stack {
       handler: "list.handler",
       environment: {
         TABLE_NAME: dynamoTable.tableName,
-        PRIMARY_KEY: "id"
-      }
+        PRIMARY_KEY: "id",
+      },
     });
 
     dynamoTable.grantReadWriteData(list);
@@ -81,10 +81,10 @@ export class CdkReactTodoStack extends cdk.Stack {
      */
 
     const api = new apigateway.RestApi(this, "CdkReactTodoApi", {
-      restApiName: "TODO Service"
+      restApiName: "TODO Service",
     });
     const todos = api.root.addResource("todos");
-  
+
     const listIntegration = new apigateway.LambdaIntegration(list);
     todos.addMethod("GET", listIntegration);
   }
