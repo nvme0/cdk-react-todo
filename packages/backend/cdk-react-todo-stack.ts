@@ -1,7 +1,7 @@
 import * as cdk from "@aws-cdk/core";
 import * as apigateway from "@aws-cdk/aws-apigateway";
 import * as lambda from "@aws-cdk/aws-lambda";
-// import * as dynamodb from "@aws-cdk/aws-dynamodb";
+import * as dynamodb from "@aws-cdk/aws-dynamodb";
 // import * as s3 from "@aws-cdk/aws-s3";
 // import * as s3Deployment from "@aws-cdk/aws-s3-deployment";
 // import * as cloudfront from "@aws-cdk/aws-cloudfront";
@@ -51,14 +51,14 @@ export class CdkReactTodoStack extends cdk.Stack {
      * DB
      */
 
-    // const dynamoTable = new dynamodb.Table(this, "todos", {
-    //   partitionKey: {
-    //     name: "id",
-    //     type: dynamodb.AttributeType.STRING
-    //   },
-    //   tableName: "todos",
-    //   removalPolicy: cdk.RemovalPolicy.DESTROY, // NOT recommended for production code
-    // });
+    const dynamoTable = new dynamodb.Table(this, "todos", {
+      partitionKey: {
+        name: "id",
+        type: dynamodb.AttributeType.STRING
+      },
+      tableName: "todos",
+      removalPolicy: cdk.RemovalPolicy.DESTROY, // NOT recommended for production code
+    });
 
     /**
      * Lambdas
@@ -67,14 +67,14 @@ export class CdkReactTodoStack extends cdk.Stack {
     const list = new lambda.Function(this, "listTodosFunction", {
       runtime: lambda.Runtime.NODEJS_10_X,
       code: lambda.Code.fromAsset(path.join(__dirname, "build")),
-      handler: "list.handler"
-      // environment: {
-      //   TABLE_NAME: dynamoTable.tableName,
-      //   PRIMARY_KEY: "id"
-      // }
+      handler: "list.handler",
+      environment: {
+        TABLE_NAME: dynamoTable.tableName,
+        PRIMARY_KEY: "id"
+      }
     });
 
-    // dynamoTable.grantReadWriteData(list);
+    dynamoTable.grantReadWriteData(list);
 
     /**
      * APIs
