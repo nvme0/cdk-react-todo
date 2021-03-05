@@ -26,3 +26,7 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 ## Resources
 
 (Aws Examples - API, CORS, Lambda, CRUD, DynamoDB)[https://github.com/aws-samples/aws-cdk-examples/tree/master/typescript/api-cors-lambda-crud-dynamodb]
+
+## URL
+
+https://bgnrkm5i62.execute-api.ap-southeast-2.amazonaws.com/prod/todos
