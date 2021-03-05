@@ -22,3 +22,7 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 - Add deployment pipeline
 - Add Amazon Congnito (user accounts)
 - Unit tests, e2e tests
+
+## Resources
+
+(Aws Examples - API, CORS, Lambda, CRUD, DynamoDB)[https://github.com/aws-samples/aws-cdk-examples/tree/master/typescript/api-cors-lambda-crud-dynamodb]
