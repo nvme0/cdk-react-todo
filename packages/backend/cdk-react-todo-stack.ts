@@ -74,7 +74,18 @@ export class CdkReactTodoStack extends cdk.Stack {
       },
     });
 
+    const createOne = new lambda.Function(this, "createTodoFunction", {
+      runtime: lambda.Runtime.NODEJS_10_X,
+      code: lambda.Code.fromAsset(path.join(__dirname, "build")),
+      handler: "create.handler",
+      environment: {
+        TABLE_NAME: dynamoTable.tableName,
+        PRIMARY_KEY: "id",
+      },
+    });
+
     dynamoTable.grantReadWriteData(list);
+    dynamoTable.grantReadWriteData(createOne);
 
     /**
      * APIs
@@ -87,5 +98,8 @@ export class CdkReactTodoStack extends cdk.Stack {
 
     const listIntegration = new apigateway.LambdaIntegration(list);
     todos.addMethod("GET", listIntegration);
+
+    const createOneIntegration = new apigateway.LambdaIntegration(createOne);
+    todos.addMethod("POST", createOneIntegration);
   }
 }
