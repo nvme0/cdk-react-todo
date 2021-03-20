@@ -7,14 +7,14 @@ const TABLE_NAME = process.env.TABLE_NAME || "";
 const db = new AWS.DynamoDB.DocumentClient();
 
 export const handler: APIGatewayProxyHandlerV2 = async () => {
-  const params = {
+  const params: AWS.DynamoDB.DocumentClient.ScanInput = {
     TableName: TABLE_NAME,
   };
 
   try {
     const response = await db.scan(params).promise();
-    return apiResponses._200({ todos: JSON.stringify(response.Items) });
+    return apiResponses._200({ todos: response.Items });
   } catch (dbError) {
-    return apiResponses._500({ error: JSON.stringify(dbError) });
+    return apiResponses._500({ error: dbError });
   }
 };

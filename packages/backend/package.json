@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "scripts": {
     "clean": "rm -rf build",
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && NODE_ENV=${NODE_ENV:-production} webpack",
+    "deploy": "cdk deploy",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
@@ -11,12 +12,20 @@
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.91.0",
+    "@babel/cli": "^7.13.10",
+    "@babel/core": "^7.13.10",
+    "@babel/plugin-transform-runtime": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "@babel/preset-typescript": "^7.13.0",
     "@types/aws-lambda": "^8.10.72",
     "@types/jest": "^26.0.10",
     "@types/node": "^10.17.27",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
     "aws-cdk": "1.91.0",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^3.0.0",
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
@@ -24,7 +33,9 @@
     "prettier": "^2.2.1",
     "ts-jest": "^26.2.0",
     "ts-node": "^9.0.0",
-    "typescript": "~3.9.7"
+    "typescript": "~3.9.7",
+    "webpack": "^5.27.1",
+    "webpack-cli": "^4.5.0"
   },
   "dependencies": {
     "@aws-cdk/aws-apigateway": "^1.91.0",
@@ -36,6 +47,7 @@
     "@aws-cdk/aws-s3-deployment": "^1.91.0",
     "@aws-cdk/core": "1.91.0",
     "aws-sdk": "^2.856.0",
-    "source-map-support": "^0.5.16"
+    "source-map-support": "^0.5.16",
+    "uuid": "^8.3.2"
   }
 }

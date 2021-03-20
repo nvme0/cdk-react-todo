@@ -5,6 +5,12 @@ const apiResponses = {
       body: JSON.stringify(body, null, 2),
     };
   },
+  _201: (body: { [key: string]: any }) => {
+    return {
+      statusCode: 201,
+      body: JSON.stringify(body, null, 2),
+    };
+  },
   _400: (body: { [key: string]: any }) => {
     return {
       statusCode: 400,

@@ -29,6 +29,8 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 [AWS CDK Workshop - TypeScript](https://cdkworkshop.com/20-typescript.html)
 
+[AWS CDK Patterns](https://github.com/cdk-patterns/serverless)
+
 ## URL
 
 https://bgnrkm5i62.execute-api.ap-southeast-2.amazonaws.com/prod/todos
