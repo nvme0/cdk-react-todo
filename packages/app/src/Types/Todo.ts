@@ -3,4 +3,5 @@ export interface Todo {
   title: string;
   description: string;
   status: "TODO" | "DOING" | "DONE";
+  rank: number;
 }

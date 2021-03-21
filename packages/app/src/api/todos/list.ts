@@ -11,7 +11,7 @@ const list = async (): Promise<Todo[]> => {
 
   const response = await fetch(TODO_API_URL, fetchOptions);
   const { todos }: { todos: Todo[] } = await response.json();
-  return todos;
+  return todos.sort((a, b) => a.rank - b.rank);
 };
 
 export default list;
