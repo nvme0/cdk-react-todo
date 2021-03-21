@@ -93,9 +93,20 @@ export class CdkReactTodoStack extends cdk.Stack {
       },
     });
 
+    const batchUpdate = new lambda.Function(this, "batchUpdateTodosFunction", {
+      runtime: lambda.Runtime.NODEJS_10_X,
+      code: lambda.Code.fromAsset(LAMBDAS_OUTPUT_DIR),
+      handler: "lambdas.batchUpdate",
+      environment: {
+        TABLE_NAME: dynamoTable.tableName,
+        PRIMARY_KEY: "id",
+      },
+    });
+
     dynamoTable.grantReadWriteData(list);
     dynamoTable.grantReadWriteData(createOne);
     dynamoTable.grantReadWriteData(updateOne);
+    dynamoTable.grantReadWriteData(batchUpdate);
 
     /**
      * APIs
@@ -128,5 +139,8 @@ export class CdkReactTodoStack extends cdk.Stack {
 
     const updateOneIntegration = new apigateway.LambdaIntegration(updateOne);
     todo.addMethod("PATCH", updateOneIntegration);
+
+    const batchUpdateIntegration = new apigateway.LambdaIntegration(batchUpdate);
+    todos.addMethod("PATCH", batchUpdateIntegration);
   }
 }
