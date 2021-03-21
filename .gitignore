@@ -7,5 +7,5 @@ node_modules
 .cdk.staging
 cdk.out
 
-# backend
-packages/backend/build/*
+# lambdas
+packages/lambdas/build/*

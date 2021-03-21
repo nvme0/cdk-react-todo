@@ -1,7 +1,44 @@
 {
   "name": "cdk-react-todo",
   "version": "0.1.0",
+  "bin": {
+    "cdk-react-todo": "bin/cdk-react-todo.js"
+  },
+  "scripts": {
+    "cdk": "cdk",
+    "deploy": "cdk deploy",
+    "cdk:bootstrap": "cdk bootstrap",
+    "lerna:bootstrap": "lerna bootstrap",
+    "build": "lerna run build",
+    "lint": "lerna run lint",
+    "type-check": "lerna run type-check"
+  },
   "devDependencies": {
-    "lerna": "^4.0.0"
+    "@aws-cdk/assert": "^1.91.0",
+    "@types/jest": "^26.0.10",
+    "@types/node": "^10.17.27",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
+    "aws-cdk": "^1.91.0",
+    "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "jest": "^26.4.2",
+    "lerna": "^4.0.0",
+    "prettier": "^2.2.1",
+    "ts-jest": "^26.2.0",
+    "ts-node": "^9.0.0",
+    "typescript": "~3.9.7"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-apigateway": "^1.91.0",
+    "@aws-cdk/aws-cloudfront": "^1.91.0",
+    "@aws-cdk/aws-cognito": "^1.91.0",
+    "@aws-cdk/aws-dynamodb": "^1.91.0",
+    "@aws-cdk/aws-lambda": "^1.91.0",
+    "@aws-cdk/aws-s3": "^1.91.0",
+    "@aws-cdk/aws-s3-deployment": "^1.91.0",
+    "@aws-cdk/core": "^1.91.0",
+    "source-map-support": "^0.5.16"
   }
 }

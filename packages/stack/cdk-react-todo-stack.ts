@@ -5,10 +5,12 @@ import * as dynamodb from "@aws-cdk/aws-dynamodb";
 // import * as s3 from "@aws-cdk/aws-s3";
 // import * as s3Deployment from "@aws-cdk/aws-s3-deployment";
 // import * as cloudfront from "@aws-cdk/aws-cloudfront";
-import * as path from "path";
+// import * as path from "path";
 
 // TODO set static files dir to react build dir
 // const STATIC_FILES_DIR = "";
+
+const LAMBDAS_OUTPUT_DIR = "./packages/lambdas/build";
 
 export class CdkReactTodoStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -66,8 +68,8 @@ export class CdkReactTodoStack extends cdk.Stack {
 
     const list = new lambda.Function(this, "listTodosFunction", {
       runtime: lambda.Runtime.NODEJS_10_X,
-      code: lambda.Code.fromAsset(path.join(__dirname, "build")),
-      handler: "list.handler",
+      code: lambda.Code.fromAsset(LAMBDAS_OUTPUT_DIR),
+      handler: "lambdas.list",
       environment: {
         TABLE_NAME: dynamoTable.tableName,
         PRIMARY_KEY: "id",
@@ -76,8 +78,8 @@ export class CdkReactTodoStack extends cdk.Stack {
 
     const createOne = new lambda.Function(this, "createTodoFunction", {
       runtime: lambda.Runtime.NODEJS_10_X,
-      code: lambda.Code.fromAsset(path.join(__dirname, "build")),
-      handler: "create.handler",
+      code: lambda.Code.fromAsset(LAMBDAS_OUTPUT_DIR),
+      handler: "lambdas.create",
       environment: {
         TABLE_NAME: dynamoTable.tableName,
         PRIMARY_KEY: "id",
