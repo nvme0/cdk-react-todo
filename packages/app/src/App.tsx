@@ -7,6 +7,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { SnackbarUtilsConfigurator } from "@app/utils/SnackbarUtils";
 import theme from "@app/theme";
+import Todos from "@app/components/Todos";
 
 import "./styles.scss";
 
@@ -20,7 +21,7 @@ const App = () => {
         <SnackbarUtilsConfigurator />
         <QueryClientProvider client={queryClient}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <div>Hello, World!</div>
+            <Todos />
           </MuiPickersUtilsProvider>
         </QueryClientProvider>
       </SnackbarProvider>
