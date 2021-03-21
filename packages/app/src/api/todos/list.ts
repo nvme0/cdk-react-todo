@@ -1,4 +1,4 @@
-import { TODO_API_URL } from "@app/constants";
+import { API_URL } from "@app/constants";
 import { Todo } from "@app/Types/Todo";
 
 const list = async (): Promise<Todo[]> => {
@@ -9,9 +9,9 @@ const list = async (): Promise<Todo[]> => {
     },
   };
 
-  const response = await fetch(TODO_API_URL, fetchOptions);
+  const response = await fetch(`${API_URL}/todos`, fetchOptions);
   const { todos }: { todos: Todo[] } = await response.json();
-  return todos.sort((a, b) => a.rank - b.rank);
+  return todos.sort((a, b) => a.place - b.place);
 };
 
 export default list;
