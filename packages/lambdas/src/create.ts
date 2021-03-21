@@ -12,7 +12,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     return apiResponses._400({ error: "invalid request, you are missing the parameter body" });
   }
 
-  const item = typeof event.body === "object" ? event.body : JSON.parse(event.body);
+  const data = typeof event.body === "object" ? event.body : JSON.parse(event.body);
+  const { clientId, ...item } = data;
   item.id = uuid();
   const params: AWS.DynamoDB.DocumentClient.PutItemInput = {
     TableName: TABLE_NAME,
@@ -21,7 +22,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
   try {
     await db.put(params).promise();
-    return apiResponses._201({ todo: item });
+    return apiResponses._201({ todo: { clientId, ...item } });
   } catch (dbError) {
     return apiResponses._500({ error: dbError });
   }
