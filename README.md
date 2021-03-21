@@ -11,7 +11,12 @@ A TODO App using AWS CDK to deploy a stack with:
 
 ### App
 
-https://d388s3z8md8pjr.cloudfront.net/
+S3 Bucket
+http://cdkreacttodostack-cdkreacttodobucket3939bc5a-1i5m1l47gewki.s3-website-ap-southeast-2.amazonaws.com/
+
+CloudFront
+d388s3z8md8pjr.cloudfront.net
+
 
 ### API
 

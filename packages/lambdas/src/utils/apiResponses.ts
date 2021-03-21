@@ -1,7 +1,7 @@
 const defaultHeaders = {
   "Access-Control-Allow-Headers": "Content-Type",
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "OPTIONS,GET,PUT,POST,DELETE",
+  "Access-Control-Allow-Methods": "OPTIONS,GET,PUT,PATCH,POST,DELETE",
 };
 
 const apiResponses = {
@@ -15,6 +15,13 @@ const apiResponses = {
   _201: (body: { [key: string]: any }) => {
     return {
       statusCode: 201,
+      body: JSON.stringify(body, null, 2),
+      headers: defaultHeaders,
+    };
+  },
+  _204: (body: { [key: string]: any }) => {
+    return {
+      statusCode: 204,
       body: JSON.stringify(body, null, 2),
       headers: defaultHeaders,
     };

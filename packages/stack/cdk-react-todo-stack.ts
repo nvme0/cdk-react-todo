@@ -83,8 +83,19 @@ export class CdkReactTodoStack extends cdk.Stack {
       },
     });
 
+    const updateOne = new lambda.Function(this, "updateTodoFunction", {
+      runtime: lambda.Runtime.NODEJS_10_X,
+      code: lambda.Code.fromAsset(LAMBDAS_OUTPUT_DIR),
+      handler: "lambdas.update",
+      environment: {
+        TABLE_NAME: dynamoTable.tableName,
+        PRIMARY_KEY: "id",
+      },
+    });
+
     dynamoTable.grantReadWriteData(list);
     dynamoTable.grantReadWriteData(createOne);
+    dynamoTable.grantReadWriteData(updateOne);
 
     /**
      * APIs
@@ -93,12 +104,29 @@ export class CdkReactTodoStack extends cdk.Stack {
     const api = new apigateway.RestApi(this, "CdkReactTodoApi", {
       restApiName: "TODO Service",
     });
-    const todos = api.root.addResource("todos");
+
+    const todo = api.root.addResource("todo").addResource("{id}", {
+      defaultCorsPreflightOptions: {
+        allowHeaders: ["Content-Type"],
+        allowOrigins: ["*"],
+        allowMethods: ["OPTIONS", "GET", "PUT", "PATCH", "POST", "DELETE"],
+      },
+    });
+    const todos = api.root.addResource("todos", {
+      defaultCorsPreflightOptions: {
+        allowHeaders: ["Content-Type"],
+        allowOrigins: ["*"],
+        allowMethods: ["OPTIONS", "GET", "PUT", "PATCH", "POST", "DELETE"],
+      },
+    });
 
     const listIntegration = new apigateway.LambdaIntegration(list);
     todos.addMethod("GET", listIntegration);
 
     const createOneIntegration = new apigateway.LambdaIntegration(createOne);
     todos.addMethod("POST", createOneIntegration);
+
+    const updateOneIntegration = new apigateway.LambdaIntegration(updateOne);
+    todo.addMethod("PATCH", updateOneIntegration);
   }
 }
