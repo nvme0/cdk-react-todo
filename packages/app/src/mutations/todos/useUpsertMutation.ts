@@ -19,19 +19,17 @@ const useUpsertMutation = () => {
       if (index > -1) {
         queryClient.setQueryData<Todo[]>(TODOS_QUERY_KEY, (old) => {
           if (!old) return [];
-          return old
-            .map((entry) => {
-              if (entry.id === todo.id) return todo as Todo;
-              else return entry;
-            })
-            .sort((a, b) => a.place - b.place);
+          return old.map((entry) => {
+            if (entry.id === todo.id) return todo as Todo;
+            else return entry;
+          });
         });
       } else {
         queryClient.setQueryData<Todo[]>(TODOS_QUERY_KEY, (old) => {
           if (!old) return [];
           if (!todo.clientId) return old;
           const newTodo: Todo = { ...todo, id: todo.clientId };
-          return [...old, newTodo].sort((a, b) => a.place - b.place);
+          return [...old, newTodo];
         });
       }
 
@@ -47,12 +45,10 @@ const useUpsertMutation = () => {
       if (!id && clientId) {
         queryClient.setQueryData<Todo[]>(TODOS_QUERY_KEY, (old) => {
           if (!old) return [];
-          return old
-            .map((entry) => {
-              if (entry.id === clientId) return todo;
-              else return entry;
-            })
-            .sort((a, b) => a.place - b.place);
+          return old.map((entry) => {
+            if (entry.id === clientId) return todo;
+            else return entry;
+          });
         });
       }
       queryClient.invalidateQueries(TODOS_QUERY_KEY);

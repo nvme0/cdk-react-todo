@@ -12,9 +12,11 @@ interface TodoListProps {
 const TodoList = ({ provided, todos }: TodoListProps) => {
   return (
     <Grid container spacing={2} className="todos" {...provided.droppableProps} ref={provided.innerRef}>
-      {todos.map((todo, index) => (
-        <TodoItem key={todo.id} todo={todo} index={index} />
-      ))}
+      {todos
+        .sort((a, b) => a.place - b.place)
+        .map((todo, index) => (
+          <TodoItem key={todo.id} todo={todo} index={index} />
+        ))}
       {provided.placeholder}
     </Grid>
   );

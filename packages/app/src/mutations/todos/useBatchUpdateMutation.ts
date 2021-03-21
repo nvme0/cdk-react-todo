@@ -21,7 +21,7 @@ const useBatchUpdateMutation = () => {
 
       queryClient.setQueryData<Todo[]>(TODOS_QUERY_KEY, (old) => {
         if (!old) return [];
-        return todos.sort((a, b) => a.place - b.place);
+        return todos;
       });
 
       return previousValue;
