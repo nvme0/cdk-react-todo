@@ -19,6 +19,7 @@ setup:
     paths:
       - node_modules/
       - packages/lambdas/node_modules/
+      - packages/app/node_modules/
 
 compile:
   extends: .test
