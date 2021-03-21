@@ -2,14 +2,11 @@ import * as cdk from "@aws-cdk/core";
 import * as apigateway from "@aws-cdk/aws-apigateway";
 import * as lambda from "@aws-cdk/aws-lambda";
 import * as dynamodb from "@aws-cdk/aws-dynamodb";
-// import * as s3 from "@aws-cdk/aws-s3";
-// import * as s3Deployment from "@aws-cdk/aws-s3-deployment";
-// import * as cloudfront from "@aws-cdk/aws-cloudfront";
-// import * as path from "path";
+import * as s3 from "@aws-cdk/aws-s3";
+import * as s3Deployment from "@aws-cdk/aws-s3-deployment";
+import * as cloudfront from "@aws-cdk/aws-cloudfront";
 
-// TODO set static files dir to react build dir
-// const STATIC_FILES_DIR = "";
-
+const STATIC_FILES_DIR = "./packages/app/build";
 const LAMBDAS_OUTPUT_DIR = "./packages/lambdas/build";
 
 export class CdkReactTodoStack extends cdk.Stack {
@@ -20,34 +17,34 @@ export class CdkReactTodoStack extends cdk.Stack {
      * S3
      */
 
-    // const bucket = new s3.Bucket(this, "CdkReactTodoBucket", {
-    //   publicReadAccess: true,
-    //   websiteIndexDocument: "index.html"
-    // });
+    const bucket = new s3.Bucket(this, "CdkReactTodoBucket", {
+      publicReadAccess: true,
+      websiteIndexDocument: "index.html",
+    });
 
     /**
      * React App Deployment
      */
 
-    // new s3Deployment.BucketDeployment(this, "CdkReactTodoBucket", {
-    //   sources: [s3Deployment.Source.asset(STATIC_FILES_DIR)],
-    //   destinationBucket: bucket
-    // });
+    new s3Deployment.BucketDeployment(this, "CdkReactTodoBucketDeployment", {
+      sources: [s3Deployment.Source.asset(STATIC_FILES_DIR)],
+      destinationBucket: bucket,
+    });
 
     /**
      * Cloudfront
      */
 
-    // new cloudfront.CloudFrontWebDistribution(this, "CdkReactTodoDistribution", {
-    //   originConfigs: [
-    //     {
-    //       s3OriginSource: {
-    //         s3BucketSource: bucket
-    //       },
-    //       behaviors : [ { isDefaultBehavior: true } ]
-    //     }
-    //   ]
-    // });
+    new cloudfront.CloudFrontWebDistribution(this, "CdkReactTodoDistribution", {
+      originConfigs: [
+        {
+          s3OriginSource: {
+            s3BucketSource: bucket,
+          },
+          behaviors: [{ isDefaultBehavior: true }],
+        },
+      ],
+    });
 
     /**
      * DB

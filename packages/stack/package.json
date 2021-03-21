@@ -21,6 +21,7 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
+    "@cdk-react-todo/app": "^0.1.0",
     "@cdk-react-todo/lambdas": "^0.1.0"
   }
 }

@@ -7,7 +7,13 @@ A TODO App using AWS CDK to deploy a stack with:
 - S3 Hosting
 - Cloudfront (CDN)
 
-## URL
+## URLs
+
+### App
+
+https://d388s3z8md8pjr.cloudfront.net/
+
+### API
 
 https://k84gidorpj.execute-api.ap-southeast-2.amazonaws.com/prod/todos
 
@@ -15,7 +21,7 @@ https://k84gidorpj.execute-api.ap-southeast-2.amazonaws.com/prod/todos
 
 `npm i`
 
-`npm run bootstrap`
+`npm run lerna:bootstrap`
 
 ## Useful commands
 
@@ -35,7 +41,7 @@ https://k84gidorpj.execute-api.ap-southeast-2.amazonaws.com/prod/todos
 ## TODO
 
 - Add TODO endpoints: Create (POST), Update (PUT), Delete (Delete), Get One (GET)
-- Add React Frontend: Todos, React DnD, Material UI, React Query with optimisic updates
+- Add React Frontend: Todos, React DnD, Material UI, React Query with optimistic updates
 - Add CloudFront (CDN)
 - Add deployment pipeline
 - Add Amazon Congnito (user accounts)
