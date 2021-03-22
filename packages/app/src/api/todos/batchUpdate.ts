@@ -6,6 +6,7 @@ export interface BatchUpdateProps {
 }
 
 const batchUpdate = async ({ todos }: BatchUpdateProps) => {
+  if (!todos.length) return todos;
   const fetchOptions: RequestInit = {
     method: "PATCH",
     headers: {
