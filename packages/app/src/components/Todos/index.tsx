@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardHeader, CardContent } from "@material-ui/core";
 import { DragDropContext, Droppable, DropResult, ResponderProvided } from "react-beautiful-dnd";
 import { useQuery } from "react-query";
@@ -9,12 +9,14 @@ import { TODOS_QUERY_KEY } from "@app/constants";
 import wrapAsyncWithToastr from "@app/utils/wrapAsyncWithToastr";
 import listTodos from "@app/api/todos/list";
 import TodoList from "@app/components/TodoList";
+import TodoModal from "@app/components/TodoModal";
 import CircularProgressCentered from "@app/components/CircularProgressCentered";
 import useBatchUpdateMutation from "@app/mutations/todos/useBatchUpdateMutation";
 
 const Todos = () => {
   const classes = useStyles();
   const { mutate: batchUpdateMutation } = useBatchUpdateMutation();
+  const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
 
   const { isLoading, data } = useQuery({
     queryKey: TODOS_QUERY_KEY,
@@ -43,27 +45,38 @@ const Todos = () => {
     });
   };
 
+  const handleClickTodo = (todo: Todo, index: number) => {
+    setSelectedTodo(todo);
+  };
+
+  const handleCloseTodoModal = () => {
+    setSelectedTodo(null);
+  };
+
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        title="CDK React TODOs"
-        titleTypographyProps={{
-          component: "h1",
-          variant: "h4",
-        }}
-      />
-      <CardContent>
-        {isLoading ? (
-          <CircularProgressCentered message="Loading..." />
-        ) : (
-          <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId={TODOS_QUERY_KEY}>
-              {(provided) => <TodoList provided={provided} todos={todos} />}
-            </Droppable>
-          </DragDropContext>
-        )}
-      </CardContent>
-    </Card>
+    <>
+      <Card className={classes.root}>
+        <CardHeader
+          title="CDK React TODOs"
+          titleTypographyProps={{
+            component: "h1",
+            variant: "h4",
+          }}
+        />
+        <CardContent>
+          {isLoading ? (
+            <CircularProgressCentered message="Loading..." />
+          ) : (
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+              <Droppable droppableId={TODOS_QUERY_KEY}>
+                {(provided) => <TodoList provided={provided} todos={todos} onClick={handleClickTodo} />}
+              </Droppable>
+            </DragDropContext>
+          )}
+        </CardContent>
+      </Card>
+      {selectedTodo && <TodoModal todo={selectedTodo} closeModal={handleCloseTodoModal} />}
+    </>
   );
 };
 

@@ -45,9 +45,8 @@ https://k84gidorpj.execute-api.ap-southeast-2.amazonaws.com/prod/todos
 
 ## TODO
 
-- Add TODO endpoints: Create (POST), Update (PUT), Delete (Delete), Get One (GET)
-- Add React Frontend: Todos, React DnD, Material UI, React Query with optimistic updates
-- Add CloudFront (CDN)
+- Add TODO endpoints: Delete (Delete)
+- SNS Pub/Sub when TODO has expired
 - Add deployment pipeline
 - Add Amazon Congnito (user accounts)
 - Unit tests, e2e tests
