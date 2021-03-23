@@ -1,4 +1,4 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { Theme, createMuiTheme } from "@material-ui/core/styles";
 
 // based off https://uxdesign.cc/refining-a-color-palette-for-dark-mode-1a8bb78e7338
 const theme = createMuiTheme({
@@ -25,5 +25,11 @@ export default {
         padding: theme.spacing(2, 3),
       },
     },
+    MuiCardHeader: {
+      action: {
+        marginTop: 0,
+        marginRight: 0,
+      },
+    },
   },
-};
+} as Theme;
