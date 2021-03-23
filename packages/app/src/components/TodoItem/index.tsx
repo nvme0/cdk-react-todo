@@ -15,7 +15,7 @@ const TodoItem = ({ todo, index, onClick }: TodoProps) => {
 
   return (
     <Draggable draggableId={id} index={index}>
-      {(provided) => (
+      {(provided, { isDragging }) => (
         <Grid
           item
           xs={12}
@@ -24,7 +24,7 @@ const TodoItem = ({ todo, index, onClick }: TodoProps) => {
           {...provided.dragHandleProps}
           onClick={handleOnClick}
         >
-          <Card>
+          <Card elevation={isDragging ? 12 : 1} style={{ backgroundColor: "#0c2f3b" }}>
             <CardHeader
               title={title}
               titleTypographyProps={{
