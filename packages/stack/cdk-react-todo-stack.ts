@@ -63,6 +63,26 @@ export class CdkReactTodoStack extends cdk.Stack {
      * Lambdas
      */
 
+    const updateOne = new lambda.Function(this, "updateTodoFunction", {
+      runtime: lambda.Runtime.NODEJS_10_X,
+      code: lambda.Code.fromAsset(LAMBDAS_OUTPUT_DIR),
+      handler: "lambdas.updateOne",
+      environment: {
+        TABLE_NAME: dynamoTable.tableName,
+        PRIMARY_KEY: "id",
+      },
+    });
+
+    const deleteOne = new lambda.Function(this, "deleteTodoFunction", {
+      runtime: lambda.Runtime.NODEJS_10_X,
+      code: lambda.Code.fromAsset(LAMBDAS_OUTPUT_DIR),
+      handler: "lambdas.deleteOne",
+      environment: {
+        TABLE_NAME: dynamoTable.tableName,
+        PRIMARY_KEY: "id",
+      },
+    });
+
     const list = new lambda.Function(this, "listTodosFunction", {
       runtime: lambda.Runtime.NODEJS_10_X,
       code: lambda.Code.fromAsset(LAMBDAS_OUTPUT_DIR),
@@ -76,17 +96,7 @@ export class CdkReactTodoStack extends cdk.Stack {
     const createOne = new lambda.Function(this, "createTodoFunction", {
       runtime: lambda.Runtime.NODEJS_10_X,
       code: lambda.Code.fromAsset(LAMBDAS_OUTPUT_DIR),
-      handler: "lambdas.create",
-      environment: {
-        TABLE_NAME: dynamoTable.tableName,
-        PRIMARY_KEY: "id",
-      },
-    });
-
-    const updateOne = new lambda.Function(this, "updateTodoFunction", {
-      runtime: lambda.Runtime.NODEJS_10_X,
-      code: lambda.Code.fromAsset(LAMBDAS_OUTPUT_DIR),
-      handler: "lambdas.update",
+      handler: "lambdas.createOne",
       environment: {
         TABLE_NAME: dynamoTable.tableName,
         PRIMARY_KEY: "id",
@@ -103,9 +113,10 @@ export class CdkReactTodoStack extends cdk.Stack {
       },
     });
 
+    dynamoTable.grantReadWriteData(updateOne);
+    dynamoTable.grantReadWriteData(deleteOne);
     dynamoTable.grantReadWriteData(list);
     dynamoTable.grantReadWriteData(createOne);
-    dynamoTable.grantReadWriteData(updateOne);
     dynamoTable.grantReadWriteData(batchUpdate);
 
     /**
@@ -123,6 +134,13 @@ export class CdkReactTodoStack extends cdk.Stack {
         allowMethods: ["OPTIONS", "GET", "PUT", "PATCH", "POST", "DELETE"],
       },
     });
+
+    const updateOneIntegration = new apigateway.LambdaIntegration(updateOne);
+    todo.addMethod("PATCH", updateOneIntegration);
+
+    const deleteOneIntegration = new apigateway.LambdaIntegration(deleteOne);
+    todo.addMethod("DELETE", deleteOneIntegration);
+
     const todos = api.root.addResource("todos", {
       defaultCorsPreflightOptions: {
         allowHeaders: ["Content-Type"],
@@ -136,9 +154,6 @@ export class CdkReactTodoStack extends cdk.Stack {
 
     const createOneIntegration = new apigateway.LambdaIntegration(createOne);
     todos.addMethod("POST", createOneIntegration);
-
-    const updateOneIntegration = new apigateway.LambdaIntegration(updateOne);
-    todo.addMethod("PATCH", updateOneIntegration);
 
     const batchUpdateIntegration = new apigateway.LambdaIntegration(batchUpdate);
     todos.addMethod("PATCH", batchUpdateIntegration);

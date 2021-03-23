@@ -17,7 +17,6 @@ http://cdkreacttodostack-cdkreacttodobucket3939bc5a-1i5m1l47gewki.s3-website-ap-
 CloudFront
 d388s3z8md8pjr.cloudfront.net
 
-
 ### API
 
 https://k84gidorpj.execute-api.ap-southeast-2.amazonaws.com/prod/todos
