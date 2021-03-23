@@ -11,12 +11,12 @@ const schema = yup.object().shape({
   place: yup.number().required("Required"),
 });
 
-export const getDefaultValues = (qtyInTodo: number, id?: string) => {
+export const getDefaultValues = (lastPlace: number, id?: string) => {
   const defaultValues: Omit<Todo, "id"> & { id?: string } = {
     title: "",
     description: "",
     stage: "TODO",
-    place: qtyInTodo,
+    place: lastPlace + 1,
   };
 
   if (id) defaultValues.id = id;

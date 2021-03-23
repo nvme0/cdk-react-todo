@@ -26,11 +26,11 @@ import ConfirmModal from "../ConfirmModal";
 
 export interface Props {
   todo: Partial<Todo>;
-  qtyInTodo: number;
+  lastPlace: number;
   closeModal: () => void;
 }
 
-export const TodoModal = ({ todo, qtyInTodo, closeModal }: Props) => {
+export const TodoModal = ({ todo, lastPlace, closeModal }: Props) => {
   const theme = useTheme();
   const classes = useStyles();
   const [showTodoModal, setShowTodoModal] = useState(false);
@@ -40,7 +40,7 @@ export const TodoModal = ({ todo, qtyInTodo, closeModal }: Props) => {
   const isEditing = Boolean(todo.id);
 
   const formik = useFormik<Omit<Todo, "id"> & { id?: string }>({
-    initialValues: merge({}, getDefaultValues(qtyInTodo, todo.id), todo),
+    initialValues: merge({}, getDefaultValues(lastPlace, todo.id), todo),
     validationSchema,
     onSubmit: (data) => {
       upsertTodo(data);
