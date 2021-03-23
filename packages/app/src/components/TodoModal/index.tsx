@@ -14,7 +14,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import { Close as CloseIcon } from "@material-ui/icons";
+import { Close as CloseIcon, Save as SaveIcon, Delete as DeleteIcon } from "@material-ui/icons";
 
 import useStyles from "./styles";
 import validationSchema, { getDefaultValues } from "./schema";
@@ -53,9 +53,9 @@ export const TodoModal = ({ todo, closeModal }: Props) => {
     <Dialog open={true} onClose={closeModal} fullScreen={fullScreen} maxWidth="lg">
       <DialogTitle className={classes.modalTitle} disableTypography>
         <Typography variant="h5" component="h2">
-          {isEditing ? "Edit" : "Add"} Todd
+          {isEditing ? "Edit" : "Add"} Todo
         </Typography>
-        <IconButton onClick={closeModal}>
+        <IconButton className={classes.closeButton} onClick={closeModal}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
@@ -88,13 +88,24 @@ export const TodoModal = ({ todo, closeModal }: Props) => {
           </form>
         </FormikProvider>
       </DialogContent>
-      <DialogActions>
-        <Button autoFocus onClick={closeModal} variant="text" color="primary">
-          Cancel
-        </Button>
-        <Button type="submit" variant="contained" color="primary" onClick={submitForm}>
-          Save
-        </Button>
+      <DialogActions
+        style={{
+          justifyContent: isEditing ? "space-between" : undefined,
+        }}
+      >
+        {isEditing && (
+          <Button variant="outlined" color="secondary" startIcon={<DeleteIcon />}>
+            Delete
+          </Button>
+        )}
+        <div className={classes.rightAlignedButtons}>
+          <Button onClick={closeModal} variant="text" color="primary">
+            Cancel
+          </Button>
+          <Button type="submit" variant="contained" color="primary" onClick={submitForm} startIcon={<SaveIcon />}>
+            Save
+          </Button>
+        </div>
       </DialogActions>
     </Dialog>
   );

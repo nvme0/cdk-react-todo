@@ -6,6 +6,14 @@ const styles = makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  closeButton: {
+    padding: 0,
+  },
+  rightAlignedButtons: {
+    "& > :not(:first-child)": {
+      marginLeft: "8px",
+    },
+  },
 }));
 
 const useStyles = () => {
