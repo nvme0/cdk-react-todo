@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Card, CardHeader, CardContent } from "@material-ui/core";
+import { Card, CardHeader, CardContent, Button } from "@material-ui/core";
+import { Add as AddIcon } from "@material-ui/icons";
 import { DragDropContext, Droppable, DropResult, ResponderProvided } from "react-beautiful-dnd";
 import { useQuery } from "react-query";
 
@@ -16,7 +17,7 @@ import useBatchUpdateMutation from "@app/mutations/todos/useBatchUpdateMutation"
 const Todos = () => {
   const classes = useStyles();
   const { mutate: batchUpdateMutation } = useBatchUpdateMutation();
-  const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
+  const [selectedTodo, setSelectedTodo] = useState<Partial<Todo> | null>(null);
 
   const { isLoading, data } = useQuery({
     queryKey: TODOS_QUERY_KEY,
@@ -45,6 +46,10 @@ const Todos = () => {
     });
   };
 
+  const handleAddTodo = () => {
+    setSelectedTodo({});
+  };
+
   const handleClickTodo = (todo: Todo, index: number) => {
     setSelectedTodo(todo);
   };
@@ -62,6 +67,11 @@ const Todos = () => {
             component: "h1",
             variant: "h4",
           }}
+          action={
+            <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleAddTodo}>
+              Add
+            </Button>
+          }
         />
         <CardContent>
           {isLoading ? (
@@ -75,7 +85,7 @@ const Todos = () => {
           )}
         </CardContent>
       </Card>
-      {selectedTodo && <TodoModal todo={selectedTodo} closeModal={handleCloseTodoModal} />}
+      {selectedTodo && <TodoModal todo={selectedTodo} qtyInTodo={todos.length} closeModal={handleCloseTodoModal} />}
     </>
   );
 };

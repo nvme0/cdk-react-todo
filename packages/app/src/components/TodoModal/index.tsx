@@ -24,10 +24,11 @@ import useUpsertMutation from "@app/mutations/todos/useUpsertMutation";
 
 export interface Props {
   todo: Partial<Todo>;
+  qtyInTodo: number;
   closeModal: () => void;
 }
 
-export const TodoModal = ({ todo, closeModal }: Props) => {
+export const TodoModal = ({ todo, qtyInTodo, closeModal }: Props) => {
   const theme = useTheme();
   const classes = useStyles();
   const { mutate: upsertTodo } = useUpsertMutation();
@@ -35,9 +36,8 @@ export const TodoModal = ({ todo, closeModal }: Props) => {
   const isEditing = Boolean(todo.id);
 
   const formik = useFormik<Omit<Todo, "id"> & { id?: string }>({
-    initialValues: merge({}, getDefaultValues(todo.id), todo),
+    initialValues: merge({}, getDefaultValues(qtyInTodo, todo.id), todo),
     validationSchema,
-    enableReinitialize: true,
     onSubmit: (data) => {
       upsertTodo(data);
       closeModal();
