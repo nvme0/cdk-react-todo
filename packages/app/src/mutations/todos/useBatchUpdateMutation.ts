@@ -6,14 +6,14 @@ import SnackbarUtils from "@app/utils/SnackbarUtils";
 import batchUpdateTodo from "@app/api/todos/batchUpdate";
 
 export interface MutationProps {
-  updatedTodos: Todo[];
+  todos: Todo[];
   changedTodos: Todo[];
 }
 
 const useBatchUpdateMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(({ changedTodos }: MutationProps) => batchUpdateTodo({ todos: changedTodos }), {
-    onMutate: async ({ updatedTodos: todos }) => {
+    onMutate: async ({ todos }) => {
       await queryClient.cancelQueries(TODOS_QUERY_KEY);
 
       const previousValue = queryClient.getQueryData<Todo[]>(TODOS_QUERY_KEY);

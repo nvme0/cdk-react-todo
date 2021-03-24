@@ -1,18 +1,20 @@
 import React, { useState } from "react";
-import { Card, CardHeader, CardContent, Button } from "@material-ui/core";
+import { Card, CardHeader, Button, Grid } from "@material-ui/core";
 import { Add as AddIcon } from "@material-ui/icons";
-import { DragDropContext, Droppable, DropResult, ResponderProvided } from "react-beautiful-dnd";
+import { DragDropContext, DropResult, ResponderProvided } from "react-beautiful-dnd";
 import { useQuery } from "react-query";
 
 import useStyles from "./styles";
 import { Todo } from "@app/Types/Todo";
 import { TODOS_QUERY_KEY } from "@app/constants";
 import wrapAsyncWithToastr from "@app/utils/wrapAsyncWithToastr";
+import createTodoMap from "@app/utils/createTodoMap";
 import listTodos from "@app/api/todos/list";
-import TodoList from "@app/components/TodoList";
+import Column from "@app/components/Column";
 import TodoModal from "@app/components/TodoModal";
 import CircularProgressCentered from "@app/components/CircularProgressCentered";
 import useBatchUpdateMutation from "@app/mutations/todos/useBatchUpdateMutation";
+import onDragEndHandler from "./onDragEndHandler";
 
 const Todos = () => {
   const classes = useStyles();
@@ -24,29 +26,23 @@ const Todos = () => {
     queryFn: () => wrapAsyncWithToastr(() => listTodos(), { successMessage: "Loaded Todos" }),
   });
   const todos = (data || []) as Todo[];
+  const todoMap = createTodoMap(todos);
 
   const computeLastPlace = () => {
-    return todos[todos.length - 1].place;
+    const sortedTodoColumn = [...todoMap["TODO"]].sort((a, b) => a.place - b.place);
+    return sortedTodoColumn[sortedTodoColumn.length - 1].place;
   };
 
   const handleOnDragEnd = (result: DropResult, provided: ResponderProvided) => {
-    if (!result.destination) return;
-    const items = Array.from(todos);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    const updatedItems = items.map((item, index) => ({ ...item, place: index }));
-
-    const changedItems = updatedItems.filter((item) => {
-      const referenceItem = todos.find(({ id }) => id === item.id);
-      if (!referenceItem) return false;
-      if (referenceItem.place !== item.place) return true;
-      return false;
+    const { updatedTodoList, changedTodos } = onDragEndHandler({
+      result,
+      todoMap,
+      todos,
     });
 
     batchUpdateMutation({
-      updatedTodos: updatedItems,
-      changedTodos: changedItems,
+      todos: updatedTodoList,
+      changedTodos: changedTodos,
     });
   };
 
@@ -64,31 +60,40 @@ const Todos = () => {
 
   return (
     <>
-      <Card className={classes.root}>
-        <CardHeader
-          title="CDK React TODOs"
-          titleTypographyProps={{
-            component: "h1",
-            variant: "h4",
-          }}
-          action={
-            <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleAddTodo}>
-              Add
-            </Button>
-          }
-        />
-        <CardContent>
-          {isLoading ? (
-            <CircularProgressCentered message="Loading..." />
-          ) : (
-            <DragDropContext onDragEnd={handleOnDragEnd}>
-              <Droppable droppableId={TODOS_QUERY_KEY}>
-                {(provided) => <TodoList provided={provided} todos={todos} onClick={handleClickTodo} />}
-              </Droppable>
-            </DragDropContext>
-          )}
-        </CardContent>
-      </Card>
+      {isLoading ? (
+        <CircularProgressCentered message="Loading..." />
+      ) : (
+        <>
+          <Card className={classes.root}>
+            <CardHeader
+              className={classes.header}
+              title="CDK React TODOs"
+              titleTypographyProps={{
+                component: "h1",
+                variant: "h4",
+              }}
+              action={
+                <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleAddTodo}>
+                  Add
+                </Button>
+              }
+            />
+          </Card>
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <Grid className={classes.columns} container spacing={2}>
+              <Grid item xs={4}>
+                <Column title="TODO" todos={todoMap["TODO"]} onClick={handleClickTodo} />
+              </Grid>
+              <Grid item xs={4}>
+                <Column title="DOING" todos={todoMap["DOING"]} onClick={handleClickTodo} />
+              </Grid>
+              <Grid item xs={4}>
+                <Column title="DONE" todos={todoMap["DONE"]} onClick={handleClickTodo} />
+              </Grid>
+            </Grid>
+          </DragDropContext>
+        </>
+      )}
       {selectedTodo && (
         <TodoModal todo={selectedTodo} lastPlace={computeLastPlace()} closeModal={handleCloseTodoModal} />
       )}

@@ -3,13 +3,13 @@ import { Draggable } from "react-beautiful-dnd";
 import { Card, CardContent, CardHeader, Typography, Grid } from "@material-ui/core";
 import { Todo } from "@app/Types/Todo";
 
-export interface TodoProps {
+export interface Props {
   todo: Todo;
   index: number;
   onClick: (todo: Todo, index: number) => void;
 }
 
-const TodoItem = ({ todo, index, onClick }: TodoProps) => {
+const TodoItem = ({ todo, index, onClick }: Props) => {
   const { id, title, description } = todo;
   const handleOnClick = () => onClick(todo, index);
 
