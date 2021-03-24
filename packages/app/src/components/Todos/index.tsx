@@ -26,9 +26,7 @@ const Todos = () => {
   const todos = (data || []) as Todo[];
 
   const computeLastPlace = () => {
-    const items = Array.from(todos);
-    const sortedTodos = items.sort((a, b) => a.place - b.place);
-    return sortedTodos[sortedTodos.length - 1].place;
+    return todos[todos.length - 1].place;
   };
 
   const handleOnDragEnd = (result: DropResult, provided: ResponderProvided) => {
