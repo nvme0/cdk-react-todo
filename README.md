@@ -44,7 +44,6 @@ https://k84gidorpj.execute-api.ap-southeast-2.amazonaws.com/prod/todos
 
 ## TODO
 
-- Add TODO endpoints: Delete (Delete)
 - SNS Pub/Sub when TODO has expired
 - Add deployment pipeline
 - Add Amazon Congnito (user accounts)
