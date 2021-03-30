@@ -1,11 +1,14 @@
 import { API_URL } from "@app/constants";
 import { Todo } from "@app/Types/Todo";
+import getAuthToken from "@app/utils/getAuthToken";
 
 const list = async (): Promise<Todo[]> => {
+  const token = await getAuthToken();
   const fetchOptions: RequestInit = {
     method: "GET",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
+      Authorization: token,
     },
   };
 

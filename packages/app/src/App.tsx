@@ -1,5 +1,7 @@
 import React from "react";
 import { hot } from "react-hot-loader/root";
+import Amplify from "aws-amplify";
+import { withAuthenticator, AmplifySignOut } from "@aws-amplify/ui-react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import { SnackbarProvider } from "notistack";
@@ -8,9 +10,11 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { SnackbarUtilsConfigurator } from "@app/utils/SnackbarUtils";
 import theme from "@app/theme";
 import Todos from "@app/components/Todos";
+import awsExports from "@app/awsExports";
 
 import "./styles.scss";
 
+Amplify.configure(awsExports);
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -21,6 +25,7 @@ const App = () => {
         <SnackbarUtilsConfigurator />
         <QueryClientProvider client={queryClient}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <AmplifySignOut />
             <Todos />
           </MuiPickersUtilsProvider>
         </QueryClientProvider>
@@ -29,4 +34,4 @@ const App = () => {
   );
 };
 
-export default hot(App);
+export default hot(withAuthenticator(App));

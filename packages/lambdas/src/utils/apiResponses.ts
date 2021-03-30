@@ -1,5 +1,5 @@
 const defaultHeaders = {
-  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Headers": "*",
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "OPTIONS,GET,PUT,PATCH,POST,DELETE",
 };

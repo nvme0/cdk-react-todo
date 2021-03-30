@@ -46,5 +46,5 @@ https://k84gidorpj.execute-api.ap-southeast-2.amazonaws.com/prod/todos
 
 - SNS Pub/Sub when TODO has expired
 - Add deployment pipeline
-- Add Amazon Congnito (user accounts)
+- Support Multiple User Accounts
 - Unit tests, e2e tests

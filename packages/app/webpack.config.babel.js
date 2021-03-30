@@ -63,7 +63,7 @@ module.exports = () => {
     mode: PRODUCTION_ENV ? "production" : "development",
     devtool: PRODUCTION_ENV ? false : "inline-source-map",
     resolve: {
-      extensions: [".ts", ".js", ".tsx", ".jsx", ".json"],
+      extensions: [".mjs", ".ts", ".js", ".tsx", ".jsx", ".json"],
       alias: PRODUCTION_ENV
         ? {
             "@app": path.resolve(__dirname, "src"),

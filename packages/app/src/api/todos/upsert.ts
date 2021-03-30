@@ -1,15 +1,18 @@
 import { API_URL } from "@app/constants";
 import { Todo } from "@app/Types/Todo";
+import getAuthToken from "@app/utils/getAuthToken";
 
 interface CreateProps {
   data: Omit<Todo, "id">;
 }
 
 const createOne = async ({ data }: CreateProps) => {
+  const token = await getAuthToken();
   const fetchOptions: RequestInit = {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
+      Authorization: token,
     },
     body: JSON.stringify(data),
   };
@@ -25,10 +28,12 @@ interface UpdateProps {
 }
 
 const updateOne = async ({ id, data }: UpdateProps): Promise<Todo> => {
+  const token = await getAuthToken();
   const fetchOptions: RequestInit = {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
+      Authorization: token,
     },
     body: JSON.stringify(data),
   };
