@@ -33,7 +33,9 @@ const TodoItem = ({ todo, index, onClick }: Props) => {
               }}
             />
             <CardContent>
-              <Typography variant="body1">{description}</Typography>
+              <Typography variant="body1" style={{ whiteSpace: "pre-wrap" }}>
+                {description}
+              </Typography>
             </CardContent>
           </Card>
         </Grid>
