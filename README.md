@@ -2,7 +2,9 @@
 
 A TODO App using AWS CDK to deploy a stack with:
 - A Dynamo Database (DB)
-- API Gateway
+- API Gateway w/ Authorizer
+- AWS Amplify on the frontend
+- Cognito
 - Lamda Functions
 - S3 Hosting
 - Cloudfront (CDN)
