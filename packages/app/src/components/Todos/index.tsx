@@ -30,7 +30,12 @@ const Todos = () => {
 
   const computeLastPlace = () => {
     const sortedTodoColumn = [...todoMap["TODO"]].sort((a, b) => a.place - b.place);
-    return sortedTodoColumn[sortedTodoColumn.length - 1].place;
+    const numberInTodo = sortedTodoColumn.length;
+    if (numberInTodo === 0) {
+      return -1;
+    } else {
+      return sortedTodoColumn[numberInTodo - 1].place;
+    }
   };
 
   const handleOnDragEnd = (result: DropResult, provided: ResponderProvided) => {
